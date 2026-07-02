@@ -1,0 +1,16 @@
+# Core
+python-telegram-bot==21.*
+requests
+python-dotenv
+
+# LLM (Ollama runs as a separate process — no Python package needed beyond requests)
+
+# STT
+faster-whisper
+
+# TTS
+TTS  # Coqui XTTS v2
+
+# Memory / RAG
+chromadb
+sentence-transformers

@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific
+chroma_db/
+voice_samples/*.wav
+voice_samples/*.mp3
+chats/
