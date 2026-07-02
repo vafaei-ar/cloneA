@@ -221,4 +221,7 @@ __marimo__/
 chroma_db/
 voice_samples/*.wav
 voice_samples/*.mp3
-chats/
+chats/*
+# ...but keep the placeholder files so the directories exist on a fresh clone.
+!voice_samples/.gitkeep
+!chats/.gitkeep

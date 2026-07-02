@@ -1,16 +1,29 @@
-# Core
-python-telegram-bot==21.*
-requests
-python-dotenv
+# cloneA dependencies
+#
+# Tested with Python 3.10 / 3.11. Coqui TTS does NOT support Python 3.12+,
+# so use 3.10 or 3.11 for the full voice pipeline.
+# System packages required: ffmpeg (audio decoding for Whisper/Telegram OGG).
 
-# LLM (Ollama runs as a separate process — no Python package needed beyond requests)
+# --- Core ---
+python-telegram-bot==21.6
+requests==2.32.3
+python-dotenv==1.0.1
 
-# STT
-faster-whisper
+# --- LLM ---
+# Ollama runs as a separate process (https://ollama.com); no Python package
+# needed beyond `requests`.
 
-# TTS
-TTS  # Coqui XTTS v2
+# --- Speech-to-text ---
+faster-whisper==1.0.3
 
-# Memory / RAG
-chromadb
-sentence-transformers
+# --- Text-to-speech (voice cloning) ---
+# Coqui XTTS v2. The `TTS` package is unmaintained and version-sensitive;
+# 0.22.0 is the last release and requires Python <=3.11.
+TTS==0.22.0
+
+# --- Long-term memory / RAG ---
+chromadb==0.5.5
+sentence-transformers==3.0.1
+
+# --- Development / tests ---
+pytest==8.3.2

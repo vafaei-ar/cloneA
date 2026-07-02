@@ -1,4 +1,14 @@
-"""Long-term memory using ChromaDB + sentence-transformers."""
+"""Long-term memory using ChromaDB + sentence-transformers.
+
+Two kinds of documents live in the collection:
+  * type="conversation" — tagged with the Telegram user_id it came from.
+  * type="persona"      — ingested chat history that defines the clone's
+                          voice/persona; shared across all users.
+
+Retrieval returns the current user's own conversation memories *plus* the
+shared persona memories, so one user's private chats never leak into another
+user's context.
+"""
 import uuid
 import config
 
@@ -31,16 +41,28 @@ def store(text: str, metadata: dict | None = None) -> None:
     )
 
 
-def retrieve(query: str, n_results: int = 5) -> list[str]:
+def _where_for_user(user_id: str | int | None) -> dict | None:
+    """Restrict a query to this user's own memories plus shared persona memories."""
+    if user_id is None:
+        return None
+    return {"$or": [{"user_id": str(user_id)}, {"type": "persona"}]}
+
+
+def retrieve(query: str, n_results: int = 5, user_id: str | int | None = None) -> list[str]:
     col = _get_collection()
     if col.count() == 0:
         return []
-    results = col.query(query_texts=[query], n_results=min(n_results, col.count()))
-    return results["documents"][0]
+    results = col.query(
+        query_texts=[query],
+        n_results=min(n_results, col.count()),
+        where=_where_for_user(user_id),
+    )
+    docs = results.get("documents") or [[]]
+    return docs[0]
 
 
-def build_memory_context(query: str) -> str:
-    docs = retrieve(query)
+def build_memory_context(query: str, user_id: str | int | None = None) -> str:
+    docs = retrieve(query, user_id=user_id)
     if not docs:
         return ""
     joined = "\n---\n".join(docs)

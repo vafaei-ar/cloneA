@@ -1,0 +1,1 @@
+Put exported chat history here (.txt or .json), then run: python main.py --ingest
