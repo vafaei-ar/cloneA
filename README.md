@@ -1,5 +1,7 @@
 # cloneA
 
+[![CI](https://github.com/vafaei-ar/cloneA/actions/workflows/ci.yml/badge.svg)](https://github.com/vafaei-ar/cloneA/actions/workflows/ci.yml)
+
 A self-hosted **personal AI clone** that talks to you on Telegram — in text or
 voice — using a local LLM, local speech-to-text, and voice-cloned
 text-to-speech. It remembers past conversations and can adopt your persona from
